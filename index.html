@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Build With Us — The Adventure Factory | The Escape Game</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --red:#FB2D61;
+    --red-deep:#C81E48;
+    --ink:#0C0C0E;
+    --ink-2:#16161A;
+    --ink-3:#1F1F25;
+    --fog:#E5E5E5;
+    --muted:#9A9AA5;
+    --line:#2C2C33;
+    --gold:#F2C255;
+    --green:#C8E891;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--ink);
+    color:var(--fog);
+    font-family:'DM Sans',system-ui,sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:980px;margin:0 auto;padding:0 22px}
+  h1,h2,h3,.display{font-family:'Oswald',Impact,sans-serif;text-transform:uppercase;letter-spacing:.01em;line-height:1.02}
+
+  /* TOP BAR */
+  .topbar{display:flex;align-items:center;justify-content:space-between;padding:16px 22px;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(12,12,14,.92);backdrop-filter:blur(8px);z-index:20}
+  .brand{font-family:'Oswald';font-weight:700;font-size:15px;letter-spacing:.14em;text-transform:uppercase}
+  .brand small{display:block;font-family:'DM Sans';font-weight:500;letter-spacing:.18em;font-size:9.5px;color:var(--muted);margin-top:2px}
+  .topbar .loc{font-size:12px;color:var(--muted);letter-spacing:.04em}
+
+  /* HERO */
+  .hero{position:relative;padding:96px 0 84px;border-bottom:1px solid var(--line);overflow:hidden;background:#000}
+  .hero .bg{position:absolute;inset:0;background-image:url('img/hero-welder.jpg');background-size:cover;background-position:62% center;opacity:.55}
+  .hero .scrim{position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,8,10,.94) 0%,rgba(8,8,10,.78) 42%,rgba(8,8,10,.30) 100%)}
+  .hero .wrap{position:relative;z-index:2}
+  .kicker{display:inline-block;font-family:'Oswald';font-weight:600;font-size:13px;letter-spacing:.22em;color:#fff;background:var(--red);padding:7px 13px;margin-bottom:22px}
+  .hero h1{font-size:clamp(40px,8vw,84px);font-weight:700;text-shadow:0 2px 30px rgba(0,0,0,.5)}
+  .hero h1 .br{color:var(--red)}
+  .hero p.sub{font-size:clamp(17px,2.4vw,22px);max-width:600px;margin-top:18px;color:#fff}
+  .hero p.fine{font-size:14px;color:#cfcfd6;margin-top:14px;letter-spacing:.02em}
+  .cta-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:30px}
+  .btn{display:inline-block;font-family:'Oswald';font-weight:600;letter-spacing:.08em;text-transform:uppercase;font-size:16px;padding:15px 30px;border-radius:9999px;text-decoration:none;cursor:pointer;border:2px solid transparent;transition:transform .12s ease,background .15s ease}
+  .btn-primary{background:var(--red);color:#fff}
+  .btn-primary:hover{background:var(--red-deep);transform:translateY(-1px)}
+  .btn-ghost{border-color:rgba(255,255,255,.4);color:#fff}
+  .btn-ghost:hover{border-color:var(--red)}
+
+  /* STRIP */
+  .strip{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-bottom:1px solid var(--line)}
+  .strip div{padding:22px 18px;border-right:1px solid var(--line)}
+  .strip div:last-child{border-right:none}
+  .strip .n{font-family:'Oswald';font-weight:700;font-size:30px;color:var(--red);line-height:1}
+  .strip .l{font-size:12.5px;color:var(--muted);margin-top:6px;letter-spacing:.03em}
+
+  /* SECTION */
+  section{padding:54px 0;border-bottom:1px solid var(--line)}
+  .eyebrow{font-family:'Oswald';font-weight:600;font-size:12px;letter-spacing:.24em;color:var(--red);margin-bottom:12px}
+  section h2{font-size:clamp(26px,4.6vw,40px);font-weight:700;margin-bottom:8px}
+  .lead{font-size:17px;color:var(--muted);max-width:680px;margin-bottom:6px}
+
+  /* WHAT WE BUILD — gallery */
+  .gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:26px}
+  .tile{position:relative;border-radius:12px;overflow:hidden;aspect-ratio:4/3;background:var(--ink-2)}
+  .tile.wide{grid-column:span 2;aspect-ratio:8/3}
+  .tile img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease}
+  .tile:hover img{transform:scale(1.05)}
+  .tile .cap{position:absolute;left:0;bottom:0;right:0;padding:24px 14px 12px;font-family:'Oswald';font-weight:600;letter-spacing:.05em;font-size:14px;color:#fff;text-transform:uppercase;background:linear-gradient(0deg,rgba(0,0,0,.78),transparent)}
+
+  /* REAL DEAL split with image */
+  .split{display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:start;margin-top:26px}
+  .split .photo{border-radius:12px;overflow:hidden;aspect-ratio:3/4;background:var(--ink-2)}
+  .split .photo img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
+  .real{display:grid;grid-template-columns:1fr;gap:22px}
+  .real .col h3{font-size:16px;letter-spacing:.06em;margin-bottom:12px;color:#fff}
+  .real ul{list-style:none}
+  .real li{padding:9px 0 9px 28px;position:relative;font-size:15.5px;border-bottom:1px solid var(--ink-3)}
+  .real .good li:before{content:"\2713";position:absolute;left:0;color:var(--green);font-weight:700}
+  .real .true li:before{content:"\2192";position:absolute;left:0;color:var(--gold);font-weight:700}
+
+  /* CULTURE band */
+  .band{position:relative;border-bottom:1px solid var(--line);min-height:300px;display:flex;align-items:center;overflow:hidden}
+  .band .bg{position:absolute;inset:0;background-image:url('img/team-allhands.jpg');background-size:cover;background-position:center;opacity:.4}
+  .band .scrim{position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,8,10,.92),rgba(8,8,10,.45))}
+  .band .wrap{position:relative;z-index:2;padding:48px 22px}
+  .band h2{font-size:clamp(24px,4vw,36px);color:#fff}
+  .band p{max-width:560px;color:#e7e7ee;font-size:16px;margin-top:8px}
+
+  /* FORM */
+  .formcard{background:var(--ink-2);border:1px solid var(--line);border-radius:14px;padding:30px;margin-top:26px}
+  .step-label{font-family:'Oswald';font-weight:600;letter-spacing:.06em;font-size:15px;color:#fff;margin:24px 0 12px;text-transform:uppercase}
+  .step-label:first-child{margin-top:0}
+  .step-label span{color:var(--red);margin-right:8px}
+  .crafts{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  .craft{position:relative}
+  .craft input{position:absolute;opacity:0;inset:0;cursor:pointer}
+  .craft label{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;text-align:center;padding:16px 8px;border:1.5px solid var(--line);border-radius:10px;cursor:pointer;font-size:13.5px;font-weight:500;transition:.12s;min-height:84px}
+  .craft .ic{font-size:22px}
+  .craft input:checked + label{border-color:var(--red);background:rgba(251,45,97,.10);color:#fff}
+  .craft label:hover{border-color:var(--muted)}
+
+  .qrow{display:grid;grid-template-columns:1fr;gap:8px;margin-bottom:14px}
+  .qrow p.q{font-size:14.5px;color:var(--fog);font-weight:500}
+  .opts{display:flex;gap:10px;flex-wrap:wrap}
+  .opt{position:relative}
+  .opt input{position:absolute;opacity:0}
+  .opt label{display:inline-block;padding:9px 16px;border:1.5px solid var(--line);border-radius:9999px;cursor:pointer;font-size:13.5px;transition:.12s}
+  .opt input:checked + label{border-color:var(--red);background:var(--red);color:#fff;font-weight:600}
+  .opt label:hover{border-color:var(--muted)}
+
+  .fields{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:6px}
+  .field{display:flex;flex-direction:column;gap:6px}
+  .field.full{grid-column:1/-1}
+  .field label{font-size:12.5px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;font-family:'Oswald';font-weight:500}
+  .field input,.field textarea{background:var(--ink);border:1.5px solid var(--line);border-radius:8px;padding:12px 13px;color:var(--fog);font-family:'DM Sans';font-size:15px}
+  .field input:focus,.field textarea:focus{outline:none;border-color:var(--red)}
+  .submit-row{display:flex;align-items:center;gap:16px;margin-top:24px;flex-wrap:wrap}
+  .src-tag{font-size:12px;color:var(--muted)}
+  .src-tag b{color:var(--gold);font-family:'Oswald';letter-spacing:.05em}
+
+  .success{display:none;text-align:center;padding:46px 20px}
+  .success.show{display:block}
+  .success .check{font-size:54px;color:var(--green)}
+  .success h2{margin:14px 0 8px}
+  .success p{color:var(--muted);max-width:520px;margin:0 auto}
+
+  footer{padding:34px 0 60px;color:var(--muted);font-size:13px;text-align:center}
+  footer .lockup{font-family:'Oswald';font-weight:700;letter-spacing:.14em;color:var(--fog);font-size:14px;margin-bottom:8px}
+
+  .note{background:rgba(242,194,85,.08);border:1px solid rgba(242,194,85,.3);border-radius:10px;padding:14px 16px;font-size:13px;color:var(--gold);margin-top:18px}
+
+  @media(max-width:760px){
+    .strip{grid-template-columns:repeat(2,1fr)}
+    .strip div:nth-child(2){border-right:none}
+    .gallery{grid-template-columns:1fr 1fr}
+    .tile.wide{grid-column:span 2;aspect-ratio:16/7}
+    .split{grid-template-columns:1fr}
+    .split .photo{aspect-ratio:16/10}
+    .crafts{grid-template-columns:repeat(2,1fr)}
+    .fields{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">THE ESCAPE GAME<small>THE ADVENTURE FACTORY · SMYRNA, TN</small></div>
+  <div class="loc">Now Hiring · Skilled Trades</div>
+</div>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="bg"></div>
+  <div class="scrim"></div>
+  <div class="wrap">
+    <span class="kicker">We Build Escape Games</span>
+    <h1>Build Adventures<br><span class="br">For A Living.</span></h1>
+    <p class="sub">Experienced carpenters, painters, scenic artists, CNC operators, mechanical assembly techs, and electronics makers — fabricate the games that millions play. Right outside of Nashville, TN.</p>
+    <p class="fine">85,000 sq ft · 700 puzzles · 12 games · If you like variety, we've got it!</p>
+    <div class="cta-row">
+      <a href="#apply" class="btn btn-primary">See If You're A Fit →</a>
+      <a href="#build" class="btn btn-ghost">See What We Build</a>
+    </div>
+  </div>
+</header>
+
+<!-- STRIP -->
+<div class="strip wrap" style="max-width:980px">
+  <div><div class="n">$20–28</div><div class="l">/hr to start, by craft &amp; experience*</div></div>
+  <div><div class="n">1st&nbsp;&amp;&nbsp;2nd</div><div class="l">shifts available</div></div>
+  <div><div class="n">11</div><div class="l">team members promoted in the last 12 months</div></div>
+  <div><div class="n">W-2</div><div class="l">full-time · benefits · not a temp gig</div></div>
+</div>
+
+<!-- WHAT WE BUILD -->
+<section id="build">
+  <div class="wrap">
+    <div class="eyebrow">The Work</div>
+    <h2>We Design And Deliver EPIC Interactive Experiences For Every Single Guest.</h2>
+    <p class="lead">Not widgets. Not the same part a thousand times. Hand-sculpted scenic, complex mechanicals, and working electronics — every piece engineered to be touched, solved, and remembered.</p>
+    <div class="gallery">
+      <div class="tile"><img src="img/build-5511.jpg" alt="Team collaborating on a build at the bench"></div>
+      <div class="tile"><img src="img/build-doorway.jpg" alt="Maker moving work through the spray-booth doorway"></div>
+      <div class="tile"><img src="img/build-bottles.jpg" alt="Maker detailing custom prop bottles"></div>
+      <div class="tile"><img src="img/build-elephant.jpg" alt="Carved sculptural figures"></div>
+      <div class="tile"><img src="img/build-face.jpg" alt="Hand-sculpted character heads on the production line"></div>
+      <div class="tile"><img src="img/build-5424.jpg" alt="Maker working amid fabricated stone set pieces"></div>
+      <div class="tile"><img src="img/build-mission.jpg" alt="Mission statement painted on the shop wall: design and deliver EPIC interactive experiences"></div>
+      <div class="tile"><img src="img/person-foam.jpg" alt="Maker finishing a foam component" style="object-position:center 22%"></div>
+    </div>
+  </div>
+</section>
+
+<!-- REAL DEAL -->
+<section id="real">
+  <div class="wrap">
+    <div class="eyebrow">Straight Talk</div>
+    <h2>The Real Deal Before You Apply</h2>
+    <p class="lead">These are roles for people who already know their craft. We'd rather you self-select now than find out in week two — here's what the job actually is.</p>
+    <div class="split">
+      <div class="real">
+        <div class="col good">
+          <h3>What You Get</h3>
+          <ul>
+            <li>Real craft variety — high-mix work, no assembly-line monotony</li>
+            <li>A culture genuinely committed to career growth — we promote from within</li>
+            <li>An 85,000 sq ft working shop (shared with our Great Big Game Show team), built for the craft</li>
+            <li>A team that refers their friends here — and they stick</li>
+            <li>Steady, full-time W-2 work with benefits</li>
+          </ul>
+        </div>
+        <div class="col true">
+          <h3>What It Takes</h3>
+          <ul>
+            <li>Real trade experience — you've put in time on wood, paint, scenic, CNC, electronics, or metal, and your work shows it</li>
+            <li>You can read plans and specs and hold a quality bar without hand-holding</li>
+            <li>Comfortable on your feet all day, lifting ~50 lbs, working safely around tools and machines</li>
+            <li>Reliable and accountable — the build schedule depends on you</li>
+            <li>Reliable transportation to Smyrna</li>
+          </ul>
+          <p style="font-size:13.5px;color:var(--muted);margin-top:12px">We grow our people — but these are skilled roles. We're hiring for craft you already have, not starting from zero.</p>
+        </div>
+      </div>
+      <div class="photo"><img src="img/real-deal.jpg" alt="Adventure Factory team member laughing during an all-hands on the shop floor"></div>
+    </div>
+    <div class="note">Heads up: this is the only place to apply for production roles at the Adventure Factory. One door, straight to the team that does the hiring — no runaround.</div>
+  </div>
+</section>
+
+<!-- CULTURE BAND -->
+<div class="band">
+  <div class="bg"></div>
+  <div class="scrim"></div>
+  <div class="wrap">
+    <div class="eyebrow" style="color:var(--gold)">The Team</div>
+    <h2>Builders Who Stick Around</h2>
+    <p>We're a shop full of makers who take the work seriously and each other even more so. Most of the people here were referred by someone already on the floor. That's the culture — and it's why people grow their careers with us instead of moving on.</p>
+  </div>
+</div>
+
+<!-- APPLY -->
+<section id="apply">
+  <div class="wrap">
+    <div class="eyebrow">2 Minutes</div>
+    <h2>See If You're A Fit</h2>
+    <p class="lead">Tell us your craft and a few quick details. If it lines up, you'll hear from a real person on our team — not a black hole.</p>
+
+    <form class="formcard" id="applyForm">
+      <div class="step-label"><span>01</span>Which crafts can you do? (pick all that apply)</div>
+      <div class="crafts">
+        <div class="craft"><input type="checkbox" id="c1" name="craft" value="Carpentry"><label for="c1"><span class="ic">🪚</span>Carpentry</label></div>
+        <div class="craft"><input type="checkbox" id="c2" name="craft" value="Paint / Finish"><label for="c2"><span class="ic">🎨</span>Paint / Finish</label></div>
+        <div class="craft"><input type="checkbox" id="c3" name="craft" value="Scenic"><label for="c3"><span class="ic">🏛️</span>Scenic</label></div>
+        <div class="craft"><input type="checkbox" id="c4" name="craft" value="Assembly"><label for="c4"><span class="ic">🔧</span>Assembly</label></div>
+        <div class="craft"><input type="checkbox" id="c5" name="craft" value="CNC / Print"><label for="c5"><span class="ic">🖥️</span>CNC / Print</label></div>
+        <div class="craft"><input type="checkbox" id="c6" name="craft" value="Electronics"><label for="c6"><span class="ic">⚡</span>Electronics</label></div>
+        <div class="craft"><input type="checkbox" id="c7" name="craft" value="Metal"><label for="c7"><span class="ic">⚙️</span>Metal</label></div>
+        <div class="craft"><input type="checkbox" id="c8" name="craft" value="Other"><label for="c8"><span class="ic">➕</span>Other</label></div>
+      </div>
+
+      <div class="step-label"><span>02</span>Quick fit check</div>
+      <div class="qrow">
+        <p class="q">Years of trade experience?</p>
+        <div class="opts">
+          <div class="opt"><input type="radio" name="exp" id="e1" value="5+ yrs"><label for="e1">5+ years</label></div>
+          <div class="opt"><input type="radio" name="exp" id="e2" value="3-5 yrs"><label for="e2">3–5 years</label></div>
+          <div class="opt"><input type="radio" name="exp" id="e3" value="1-3 yrs"><label for="e3">1–3 years</label></div>
+          <div class="opt"><input type="radio" name="exp" id="e4" value="<1 yr"><label for="e4">Under a year</label></div>
+        </div>
+      </div>
+      <div class="qrow">
+        <p class="q">Shift you want?</p>
+        <div class="opts">
+          <div class="opt"><input type="radio" name="shift" id="s1" value="1st"><label for="s1">1st shift</label></div>
+          <div class="opt"><input type="radio" name="shift" id="s2" value="2nd"><label for="s2">2nd shift</label></div>
+          <div class="opt"><input type="radio" name="shift" id="s3" value="Either"><label for="s3">Either</label></div>
+        </div>
+      </div>
+      <div class="qrow">
+        <p class="q">Can you start full-time, on-site in Smyrna, with reliable transportation?</p>
+        <div class="opts">
+          <div class="opt"><input type="radio" name="ready" id="r1" value="Yes"><label for="r1">Yes</label></div>
+          <div class="opt"><input type="radio" name="ready" id="r2" value="Soon"><label for="r2">Soon</label></div>
+          <div class="opt"><input type="radio" name="ready" id="r3" value="No"><label for="r3">Not yet</label></div>
+        </div>
+      </div>
+
+      <div class="step-label"><span>03</span>Where do we reach you?</div>
+      <div class="fields">
+        <div class="field"><label>First name</label><input type="text" name="first" required></div>
+        <div class="field"><label>Last name</label><input type="text" name="last" required></div>
+        <div class="field"><label>Phone</label><input type="tel" name="phone" required></div>
+        <div class="field"><label>Email</label><input type="email" name="email"></div>
+        <div class="field full"><label>What have you built that you're proud of? (optional, but it helps)</label><textarea name="notes" rows="2"></textarea></div>
+      </div>
+
+      <div class="submit-row">
+        <button type="submit" class="btn btn-primary">Send It →</button>
+        <span class="src-tag">Source: <b id="srcTag">DIRECT</b></span>
+      </div>
+    </form>
+
+    <!-- SUCCESS -->
+    <div class="formcard success" id="successCard">
+      <div class="check">✓</div>
+      <h2>Got It. Talk Soon.</h2>
+      <p>Thanks — a member of our production team will reach out within a couple business days. Keep an eye on your phone. Want to see the shop? We run tours.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="lockup">THE ESCAPE GAME · THE ADVENTURE FACTORY</div>
+    Smyrna, Tennessee · Building adventures since day one · Equal Opportunity Employer
+  </div>
+</footer>
+
+<script>
+  // Capture the per-sign tracking code from ?src= so we know which sign/truck sent each lead.
+  (function(){
+    var params = new URLSearchParams(window.location.search);
+    var src = (params.get('src') || params.get('utm_source') || 'DIRECT').toUpperCase().slice(0,24);
+    document.getElementById('srcTag').textContent = src;
+    var form = document.getElementById('applyForm');
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var crafts = Array.from(form.querySelectorAll('input[name=craft]:checked')).map(function(c){return c.value;});
+      var payload = {
+        source: src,
+        crafts: crafts,
+        experience: (form.querySelector('input[name=exp]:checked')||{}).value || null,
+        shift: (form.querySelector('input[name=shift]:checked')||{}).value || null,
+        ready: (form.querySelector('input[name=ready]:checked')||{}).value || null,
+        first: form.first.value, last: form.last.value,
+        phone: form.phone.value, email: form.email.value, notes: form.notes.value,
+        ts: new Date().toISOString()
+      };
+      // Demo: log the structured lead. In production this POSTs to the ATS / sheet.
+      console.log('LEAD CAPTURED →', payload);
+      form.style.display='none';
+      document.getElementById('successCard').classList.add('show');
+      document.getElementById('successCard').scrollIntoView({behavior:'smooth',block:'center'});
+    });
+  })();
+</script>
+</body>
+</html>
