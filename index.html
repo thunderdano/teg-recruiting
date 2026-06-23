@@ -370,8 +370,11 @@
         phone: form.phone.value, email: form.email.value, notes: form.notes.value,
         ts: new Date().toISOString()
       };
-      // Demo: log the structured lead. In production this POSTs to the ATS / sheet.
-      console.log('LEAD CAPTURED →', payload);
+      // Send the lead to the Talent Pipeline sheet (Apps Script web app). Fire-and-forget.
+      var ENDPOINT='https://script.google.com/macros/s/AKfycbzPzMsMqJrxn-p2BLwyr5FZ75z2StsMIH-4XAg5CHqtEz_a79qMocjcFRV533DyvdvM/exec';
+      try{
+        fetch(ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)});
+      }catch(err){}
       form.style.display='none';
       document.getElementById('successCard').classList.add('show');
       document.getElementById('successCard').scrollIntoView({behavior:'smooth',block:'center'});
