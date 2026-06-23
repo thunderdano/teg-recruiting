@@ -100,7 +100,7 @@
   .step-label{font-family:'Oswald';font-weight:600;letter-spacing:.06em;font-size:15px;color:#fff;margin:24px 0 12px;text-transform:uppercase}
   .step-label:first-child{margin-top:0}
   .step-label span{color:var(--red);margin-right:8px}
-  .crafts{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  .crafts{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
   .craft{position:relative}
   .craft input{position:absolute;opacity:0;inset:0;cursor:pointer}
   .craft label{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;text-align:center;padding:16px 8px;border:1.5px solid var(--line);border-radius:10px;cursor:pointer;font-size:13.5px;font-weight:500;transition:.12s;min-height:84px}
@@ -175,7 +175,7 @@
 
 <!-- STRIP -->
 <div class="strip wrap" style="max-width:980px">
-  <div><div class="n">$20–28</div><div class="l">/hr to start, by craft &amp; experience*</div></div>
+  <div><div class="n">$20–28</div><div class="l">hourly rates vary by craft and experience</div></div>
   <div><div class="n">1st&nbsp;&amp;&nbsp;2nd</div><div class="l">shifts available</div></div>
   <div><div class="n">11</div><div class="l">team members promoted in the last 12 months</div></div>
   <div><div class="n">W-2</div><div class="l">full-time · benefits · not a temp gig</div></div>
@@ -264,7 +264,18 @@
         <div class="craft"><input type="checkbox" id="c5" name="craft" value="CNC / Print"><label for="c5"><span class="ic">🖥️</span>CNC / Print</label></div>
         <div class="craft"><input type="checkbox" id="c6" name="craft" value="Electronics"><label for="c6"><span class="ic">⚡</span>Electronics</label></div>
         <div class="craft"><input type="checkbox" id="c7" name="craft" value="Metal"><label for="c7"><span class="ic">⚙️</span>Metal</label></div>
-        <div class="craft"><input type="checkbox" id="c8" name="craft" value="Other"><label for="c8"><span class="ic">➕</span>Other</label></div>
+        <div class="craft"><input type="checkbox" id="c8" name="craft" value="Installation"><label for="c8"><span class="ic">🧰</span>Installation</label></div>
+        <div class="craft"><input type="checkbox" id="c9" name="craft" value="Support"><label for="c9"><span class="ic">🛠️</span>Support</label></div>
+        <div class="craft"><input type="checkbox" id="c10" name="craft" value="Other"><label for="c10"><span class="ic">➕</span>Other</label></div>
+      </div>
+
+      <div class="qrow" id="travelQ" style="display:none;margin-top:16px">
+        <p class="q">Some of these roles (carpentry, scenic, tech &amp; installation) include travel for on-site installs around the country. Are you open to travel?</p>
+        <div class="opts">
+          <div class="opt"><input type="radio" name="travel" id="t1" value="Yes"><label for="t1">Yes</label></div>
+          <div class="opt"><input type="radio" name="travel" id="t2" value="Sometimes"><label for="t2">Sometimes</label></div>
+          <div class="opt"><input type="radio" name="travel" id="t3" value="Prefer not"><label for="t3">Prefer not</label></div>
+        </div>
       </div>
 
       <div class="step-label"><span>02</span>Quick fit check</div>
@@ -332,12 +343,25 @@
     var src = (params.get('src') || params.get('utm_source') || 'DIRECT').toUpperCase().slice(0,24);
     document.getElementById('srcTag').textContent = src;
     var form = document.getElementById('applyForm');
+
+    // Show the travel question only when a travel-relevant craft is selected.
+    var TRAVEL_CRAFTS = ['Carpentry','Scenic','Electronics','Installation'];
+    var travelQ = document.getElementById('travelQ');
+    function syncTravel(){
+      var picked = Array.from(form.querySelectorAll('input[name=craft]:checked')).map(function(c){return c.value;});
+      var show = picked.some(function(v){return TRAVEL_CRAFTS.indexOf(v) > -1;});
+      travelQ.style.display = show ? 'grid' : 'none';
+      if(!show){ var r = travelQ.querySelector('input[name=travel]:checked'); if(r) r.checked = false; }
+    }
+    form.querySelectorAll('input[name=craft]').forEach(function(cb){ cb.addEventListener('change', syncTravel); });
+
     form.addEventListener('submit', function(e){
       e.preventDefault();
       var crafts = Array.from(form.querySelectorAll('input[name=craft]:checked')).map(function(c){return c.value;});
       var payload = {
         source: src,
         crafts: crafts,
+        travel: (form.querySelector('input[name=travel]:checked')||{}).value || null,
         experience: (form.querySelector('input[name=exp]:checked')||{}).value || null,
         shift: (form.querySelector('input[name=shift]:checked')||{}).value || null,
         ready: (form.querySelector('input[name=ready]:checked')||{}).value || null,
